@@ -26,6 +26,9 @@
     "dark mode",
     "theme"
   ],
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^8.57.0",
