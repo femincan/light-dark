@@ -20,5 +20,8 @@
     "type": "git",
     "url": "git+https://github.com/femincan/light-dark.git"
   },
-  "bugs": "https://github.com/femincan/light-dark/issues"
+  "bugs": "https://github.com/femincan/light-dark/issues",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
