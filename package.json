@@ -4,6 +4,15 @@
   "type": "module",
   "description": "🔦 Manage light-dark mode with ease",
   "author": "Furkan Emin Can",
+  "homepage": "https://github.com/femincan/light-dark#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/femincan/light-dark.git"
+  },
+  "bugs": "https://github.com/femincan/light-dark/issues",
+  "scripts": {
+    "format": "prettier --write --ignore-unknown src"
+  },
   "keywords": [
     "css",
     "tailwindcss",
@@ -15,13 +24,8 @@
     "theme"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/femincan/light-dark#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/femincan/light-dark.git"
-  },
-  "bugs": "https://github.com/femincan/light-dark/issues",
   "devDependencies": {
+    "prettier": "^3.2.5",
     "typescript": "^5.4.5"
   }
 }
