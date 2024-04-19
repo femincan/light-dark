@@ -1,0 +1,24 @@
+{
+  "name": "light-dark",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "🔦 Manage light-dark mode with ease",
+  "author": "Furkan Emin Can",
+  "keywords": [
+    "css",
+    "tailwindcss",
+    "tailwind",
+    "light",
+    "dark",
+    "light mode",
+    "dark mode",
+    "theme"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/femincan/light-dark#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/femincan/light-dark.git"
+  },
+  "bugs": "https://github.com/femincan/light-dark/issues"
+}
