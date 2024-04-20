@@ -2,7 +2,6 @@
   "name": "light-dark",
   "version": "0.0.0",
   "type": "module",
-  "main": "dist/index.js",
   "description": "🔦 Manage light-dark mode with ease",
   "author": "Furkan Emin Can",
   "homepage": "https://github.com/femincan/light-dark#readme",
@@ -11,7 +10,22 @@
     "url": "git+https://github.com/femincan/light-dark.git"
   },
   "bugs": "https://github.com/femincan/light-dark/issues",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/index.cjs",
+        "types": "./dist/index.d.cts"
+      }
+    }
+  },
   "scripts": {
+    "build": "tsup",
     "format": "prettier --write --ignore-unknown src",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -27,7 +41,7 @@
     "theme"
   ],
   "files": [
-    "dist"
+    "./dist"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -36,6 +50,7 @@
     "@types/node": "^20.12.7",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.0"
   }
