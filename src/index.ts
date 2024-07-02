@@ -1,18 +1,83 @@
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark';
 
 const storageKey = 'theme';
-const localThemeEventName = 'themeSet';
+const customThemeEventName = 'themeSet';
 const systemDarkModePreference = window.matchMedia(
   '(prefers-color-scheme: dark)',
 );
 
 export function setupTheme() {
-  // Set initial theme, if local storage is unavailable set initial theme to light
+  if (!isClient()) return;
+
+  // Set initial theme
   setThemeClass();
 
-  // If local storage is unavailable don't continue
-  if (isLocalStorageUnavailable()) return;
+  // Set theme change event listeners
+  setThemeChangeListeners();
+}
 
+export function setTheme(theme: Theme) {
+  if (!isClient()) return;
+
+  setLocalTheme(theme);
+
+  document.dispatchEvent(new CustomEvent(customThemeEventName));
+}
+
+export function getTheme() {
+  if (!isClient()) return null;
+
+  const theme = localStorage.getItem(storageKey);
+
+  // Check if there is a theme property in local storage and it is well formed
+  if (theme && (theme === 'light' || theme === 'dark')) {
+    return theme;
+  }
+
+  return null;
+}
+
+export function toggleTheme() {
+  if (!isClient()) return;
+
+  const theme = getTheme();
+
+  if (!theme) return;
+
+  setTheme(theme === 'light' ? 'dark' : 'light');
+}
+
+function setLocalTheme(theme: Theme) {
+  localStorage.setItem(storageKey, theme);
+}
+
+function setThemeClass() {
+  let theme: Theme;
+
+  const localTheme = getTheme();
+
+  if (localTheme) {
+    theme = localTheme;
+  } else {
+    const themePreference = getThemePreference();
+    setLocalTheme(themePreference);
+    theme = themePreference;
+  }
+
+  const documentClassList = document.documentElement.classList;
+  documentClassList[theme === 'dark' ? 'add' : 'remove']('dark');
+}
+
+function getThemePreference(): Theme {
+  let themePreference: Theme = 'light';
+  if (systemDarkModePreference.matches) {
+    themePreference = 'dark';
+  }
+
+  return themePreference;
+}
+
+function setThemeChangeListeners() {
   // Listen for changes in local storage by different window
   // (such as directly changing theme value from devtools)
   window.addEventListener('storage', (storageEvent) => {
@@ -22,54 +87,18 @@ export function setupTheme() {
   });
 
   // Listen for changes in local storage by the same window
-  document.addEventListener(localThemeEventName, setThemeClass);
+  document.addEventListener(customThemeEventName, setThemeClass);
 
   // Listen for changes in user theme preference
-  systemDarkModePreference.addEventListener(
-    'change',
-    ({ matches: darkModePreference }) => {
-      setTheme(darkModePreference ? 'dark' : 'light');
-    },
+  systemDarkModePreference.addEventListener('change', ({ matches }) => {
+    setTheme(matches ? 'dark' : 'light');
+  });
+}
+
+function isClient() {
+  return (
+    typeof localStorage !== 'undefined' &&
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
   );
-}
-
-export function setTheme(theme: Theme) {
-  if (isLocalStorageUnavailable()) return;
-
-  localStorage.setItem(storageKey, theme);
-  document.dispatchEvent(new Event(localThemeEventName));
-}
-
-function setThemeClass() {
-  const darkThemePreference = getThemePreference();
-  const documentClassList = document.documentElement.classList;
-
-  documentClassList[darkThemePreference === 'dark' ? 'add' : 'remove']('dark');
-}
-
-function getThemePreference(): Theme {
-  if (isLocalStorageUnavailable()) return 'light';
-
-  const localPreference = localStorage.getItem(storageKey);
-
-  // Check if there is a local preference and it is well formed
-  if (
-    localPreference &&
-    (localPreference === 'light' || localPreference === 'dark')
-  ) {
-    return localPreference;
-  }
-
-  let theme: Theme = 'light';
-  if (systemDarkModePreference.matches) {
-    theme = 'dark';
-  }
-
-  setTheme(theme);
-
-  return theme;
-}
-
-function isLocalStorageUnavailable() {
-  return typeof localStorage === 'undefined';
 }
