@@ -5,7 +5,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
-    ignores: ['dist/*'],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -13,4 +12,5 @@ export default tseslint.config(
       },
     },
   },
+  { ignores: ['dist/**/*'] },
 );
