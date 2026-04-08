@@ -1,14 +1,18 @@
-import tseslint from 'typescript-eslint';
-import eslint from '@eslint/js';
+// @ts-check
 
-export default tseslint.config(
+import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import tseslint from 'typescript-eslint';
+
+export default defineConfig(
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommendedTypeChecked,
   {
     languageOptions: {
       parserOptions: {
-        project: true,
-        tsconfigRootDir: import.meta.dirname,
+        projectService: {
+          allowDefaultProject: ['eslint.config.js'],
+        },
       },
     },
   },
